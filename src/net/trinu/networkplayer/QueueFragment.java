@@ -39,10 +39,16 @@ public class QueueFragment extends DialogFragment {
 			View row = super.getView(position, convertView, parent);
 			TextView title = (TextView) row.findViewById(R.id.songTitle);
 			TextView artist = (TextView) row.findViewById(R.id.songArtist);
-			MediaMetadataRetriever meta = new MediaMetadataRetriever();
-			meta.setDataSource(getActivity().getExternalCacheDir()+songs.get(position).getPath().substring(5));
-			title.setText(meta.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
-			artist.setText(meta.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
+			if (songs.get(position).isCached()) {
+				MediaMetadataRetriever meta = new MediaMetadataRetriever();
+				meta.setDataSource(getActivity().getExternalCacheDir()+songs.get(position).getPath().substring(5));
+				title.setText(meta.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+				artist.setText(meta.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
+			} else {
+				String path = songs.get(position).getPath();
+				title.setText(path.split("/")[path.split("/").length-1]);
+				artist.setText("Still Caching");
+			}
 			return row;
 		}
 		
