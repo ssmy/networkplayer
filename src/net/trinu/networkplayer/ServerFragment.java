@@ -41,7 +41,7 @@ public class ServerFragment extends Fragment {
 		@Override
 		protected SmbFile[] doInBackground(SmbFile... args) {
 			try {
-				if (!args[0].toString().equals("smb:////")) { // choose domain
+				if (!args[0].toString().equals("smb:////") && !args[0].toString().equals("smb://")) { // choose domain
 					titleText = args[0].toString();
 					titleText = titleText.split("/")[titleText.split("/").length-1];
 					pastDomain = true;
