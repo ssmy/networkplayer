@@ -30,7 +30,6 @@ import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-import android.widget.Toast;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener {
 	private static final String tag = "MusicService";
@@ -215,7 +214,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 						cacheFile = new FileOutputStream(path);
 					} catch (FileNotFoundException e1) {
 						Log.e(tag, "Could not write to cache");
-						Toast.makeText(getApplicationContext(), R.string.fileWriteError, Toast.LENGTH_LONG).show();
 						e1.printStackTrace();
 					}
 					SmbFileInputStream inFile;
@@ -235,7 +233,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 				}
 				cacheSong.setCached(true);
 			}
-			wl.release();
+			try { wl.release(); } catch (Exception e) {};
 			return getExternalCacheDir()+queue.get(0).toString().substring(5);
 		}
 		
