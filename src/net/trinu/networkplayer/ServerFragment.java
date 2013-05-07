@@ -58,17 +58,25 @@ public class ServerFragment extends Fragment {
 		
 		@Override
 		protected void onPostExecute(SmbFile[] objs) {
-			locList.clear();
-			currentList = new ArrayList<String>();
-			for(int i=0; i<objs.length; i++) {
-				String[] split = objs[i].toString().split("/");
-				if (checkFile(objs[i].toString())) {
-					locList.add(split[split.length-1]);
-					currentList.add(objs[i].toString());
+			if (objs != null) {
+				locList.clear();
+				currentList = new ArrayList<String>();
+				for(int i=0; i<objs.length; i++) {
+					String[] split = objs[i].toString().split("/");
+					if (checkFile(objs[i].toString())) {
+						locList.add(split[split.length-1]);
+						currentList.add(objs[i].toString());
+					}
 				}
+				aa.notifyDataSetChanged();
+				updateButton();
+			} else {
+				locList.clear();
+				locList.add("No domains found. Ensure that wifi is enabled. This will display shares from computers using the Windows file sharing system");
+				currentList = new ArrayList<String>();
+				currentList.add("smb://");
+				aa.notifyDataSetChanged();
 			}
-			aa.notifyDataSetChanged();
-			updateButton();
 		}
 	}
 	
@@ -110,10 +118,11 @@ public class ServerFragment extends Fragment {
 			titleText = savedInstanceState.getString("titleText");
 			locList = savedInstanceState.getStringArrayList("locList");
 			pastDomain = savedInstanceState.getBoolean("pastDomain");
-			currentList = (ArrayList<String>) savedInstanceState.getSerializable("currentList");
+			currentList = savedInstanceState.getStringArrayList("currentList");
 			aa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, locList);
 			list.setAdapter(aa);
 			aa.notifyDataSetChanged();
+			Log.d(tag, locList.toString()+currentList.toString());
 			updateButton();
 		} else {
 			try {
@@ -164,6 +173,6 @@ public class ServerFragment extends Fragment {
 		outState.putString("titleText", titleText);
 		outState.putStringArrayList("locList", locList);
 		outState.putBoolean("pastDomain", pastDomain);
-		outState.putSerializable("currentList", currentList);
+		outState.putStringArrayList("currentList", currentList);
 	}
 }
