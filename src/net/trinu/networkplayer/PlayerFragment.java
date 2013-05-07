@@ -36,6 +36,10 @@ public class PlayerFragment extends Fragment {
 	
 	public void enqueue(String add) {
 		ms.enqueue(add);
+		if (!ms.isValid()) {
+			TextView title = (TextView) getActivity().findViewById(R.id.title);
+			title.setText("Caching file");
+		}
 	}
 			
 	private void updateMetas() {
