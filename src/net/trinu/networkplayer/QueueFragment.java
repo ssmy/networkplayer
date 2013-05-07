@@ -75,14 +75,4 @@ public class QueueFragment extends DialogFragment {
 		
 		return v;
 	}
-	/*
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		ListView lv = (ListView) getActivity().findViewById(R.id.queueList);
-		aa = new QueueAdapter(getActivity(), R.layout.queue_item, queue);
-		lv.setAdapter(aa);
-		getDialog().setTitle("Queue");
-	}
-*/
 }
