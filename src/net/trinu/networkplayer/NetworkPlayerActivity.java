@@ -11,13 +11,15 @@ public class NetworkPlayerActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 				
-		FragmentManager frag = getSupportFragmentManager();
-		FragmentTransaction transaction = frag.beginTransaction();
-		ServerFragment serverFragment = new ServerFragment();
-		transaction.add(R.id.server_placeholder, serverFragment, "serverFragment");
-		PlayerFragment playerFragment = new PlayerFragment();
-		transaction.add(R.id.player_placeholder, playerFragment, "playerFragment");
-		transaction.commit();
+		if (savedInstanceState == null) {
+			FragmentManager frag = getSupportFragmentManager();
+			FragmentTransaction transaction = frag.beginTransaction();
+			ServerFragment serverFragment = new ServerFragment();
+			transaction.add(R.id.server_placeholder, serverFragment, "serverFragment");
+			PlayerFragment playerFragment = new PlayerFragment();
+			transaction.add(R.id.player_placeholder, playerFragment, "playerFragment");
+			transaction.commit();
+		}
 		setContentView(R.layout.activity_network_player);
 	}
 
