@@ -52,7 +52,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 	}
 	
 	public int onStartCommand(Intent in, int flags, int startId) {
-		if (in.getExtras().containsKey("handler"))
+		if (in != null && in.getExtras().containsKey("handler"))
 			msg = (Messenger) in.getExtras().get("handler");
 		return START_STICKY;
 	}
@@ -129,7 +129,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 		else return false;
 	}
 	
-	private boolean isValid() {
+	public boolean isValid() {
 		return (mp != null);
 	}
 	
@@ -148,8 +148,10 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 	}
 	
 	public void pause() {
-		if (isValid())
+		if (isValid()) {
 			mp.pause();
+			noteManager.cancel(0);
+		}
 		update();
 	}
 	
